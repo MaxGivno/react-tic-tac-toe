@@ -83,7 +83,6 @@ class Game extends React.Component {
 
     sortMoves() {
         this.setState({
-          history: this.state.history.reverse(),
           isReversed: !this.state.isReversed,
         });
       }
@@ -92,6 +91,7 @@ class Game extends React.Component {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const {winner, winnerRow} = caclulateWinner(current.squares);
+        const isReversed = this.state.isReversed
 
         const moves = history.map((step, move) => {
             const desc = move ?
@@ -102,7 +102,7 @@ class Game extends React.Component {
                 'Start ';
             const currentMove = this.state.stepNumber === move;
             return (
-              <li key={move}>
+              <li key={move} className={move ? '' : "nostyle"} value={move}>
                 {currentMove 
                 ? <strong>{currentLocation}</strong> 
                 : <div>{currentLocation}<button onClick={() => this.jumpTo(move)}>{desc}</button></div> }
@@ -110,11 +110,15 @@ class Game extends React.Component {
             );
         });
 
+        if (isReversed) {
+            moves.reverse();
+        }
+
         let status;
         if (winner) {
             status = 'Winner: ' + winner;
-        } else if (history.length === 10) {
-            status = 'Draw. No moves left.';
+        } else if (!current.squares.includes(null)) {
+            status = 'Draw';
         } else {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
@@ -122,6 +126,7 @@ class Game extends React.Component {
         return (
             <div className="game">
                 <div className="game-board">
+                    <div className="status">{status}</div>
                     <Board
                         winnerSquares={winnerRow}
                         squares={current.squares}
@@ -129,10 +134,13 @@ class Game extends React.Component {
                     />
                 </div>
                 <div className="game-info">
-                    <div className="status">{status}</div>
-                    {/* <button className="button" onClick={() => this.sortMoves()}>
-                        Sort moves
-                    </button> */}
+                    <div>
+                        Sort Moves&nbsp;&nbsp;
+                        <button className="button" onClick={() => this.sortMoves()}>
+                            {isReversed ? 'descending' : 'ascending'}
+                        </button>
+                    </div>
+                    
                     <ol>{moves}</ol>
                 </div>
             </div>

@@ -6,6 +6,7 @@ body {
 
 ol, ul {
     padding-left: 30px;
+    line-height: 25px;
 }
 
 button {
@@ -50,6 +51,9 @@ button:active {
 
 .status {
     margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
 }
 
 .square {
@@ -76,17 +80,18 @@ button:active {
     color: white;
 }
 
+.square:hover,
+.square:focus {
+    background: #adbacc;
+    color: white;
+}
+
 .square:focus {
     outline: none;
 }
 
 .kbd-navigation .square:focus {
     background: #ddd;
-}
-
-.status {
-    font-size: 1.2rem;
-    font-weight: bold;
 }
 
 .game-board {
@@ -96,6 +101,8 @@ button:active {
         -15px -15px 35px white,
         10px 10px 30px #707ad33a;
     padding: 10px;
+    max-width: 218px;
+    max-height: 254px;
 }
 
 .game {
@@ -110,4 +117,22 @@ button:active {
 .container {
     max-width: 35rem;
     margin: 5rem auto;
+}
+
+.nostyle {
+    list-style-type: none;
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+        margin: 20px auto;
+    }
+    .game {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .game-info {
+        margin-top: 40px;
+    }
 }
